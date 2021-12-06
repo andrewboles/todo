@@ -38,8 +38,9 @@ const manipulateDOM = (() =>{
   const startUp = () =>{
     addProjButton.innerHTML = "Add Project"
     addItemButton.innerHTML = "Add Item"
-    document.body.appendChild(addProjButton)
-    document.body.appendChild(addItemButton)
+    addProjButton.setAttribute('id',`add-project`);
+    addItemButton.setAttribute('id',`add-item`);
+    
     projectContainer.addProject('defaultProject')
     mainContent.setAttribute('id',`content`);
     document.body.appendChild(mainContent)
@@ -47,6 +48,8 @@ const manipulateDOM = (() =>{
     mainContent.appendChild(sideBar)
     todolistspace.setAttribute('id',`todo-list-space`);
     mainContent.appendChild(todolistspace)
+    sideBar.appendChild(addProjButton)
+    todolistspace.appendChild(addItemButton)
     addProjButton.addEventListener('click',()=>{
       projectContainer.addProject('placeholder')
     })
@@ -57,6 +60,7 @@ const manipulateDOM = (() =>{
   const appendProject = (projectName) => {
     let newProjDom = document.createElement('div');
     let removeButton = document.createElement('div');
+    let addProjButton = document.getElementById('add-project')
     newProjDom.setAttribute('id',`${projectName}-project`);
     newProjDom.classList.add('project-entry');
     newProjDom.innerHTML = `${projectName}`
@@ -66,10 +70,11 @@ const manipulateDOM = (() =>{
       removeProject(e.target.parentNode.id)
     })
     newProjDom.appendChild(removeButton)
-    sideBar.appendChild(newProjDom)
+    sideBar.insertBefore(newProjDom, addProjButton)
   }
   const appendItem = (itemName) => {
     let newItemDom = document.createElement('div');
+    let addItemButton = document.getElementById('add-item')
     newItemDom.setAttribute('id',`${itemName}`);
     newItemDom.classList.add('item-entry');
     newItemDom.innerHTML = `${itemName}`
@@ -80,7 +85,7 @@ const manipulateDOM = (() =>{
       removeItem(e.target.parentNode.id)
     })
     newItemDom.appendChild(removeButton)
-    todolistspace.appendChild(newItemDom)
+    todolistspace.insertBefore(newItemDom, addItemButton)
   }
 
   const removeProject = (projectId) => {

@@ -3,7 +3,7 @@
   flex-flow: row wrap;
   width: 1200px;
   height: 900px;
-  margin: 150px auto;
+  margin: 20px auto;
   background-color: gray;
   justify-content: space-between;
   align-items: space-between;
@@ -17,7 +17,7 @@
 #todo-list-space{
   display: flex;
   flex-flow: row wrap;
-  width: 650px;
+  width: 800px;
   height: 800px;
   margin: 10px auto;
   background-color: gray;
@@ -56,7 +56,7 @@
 
 .item-entry{
   display: flex;
-  width: 600px;
+  width: 700px;
   height: 80px;
   margin: 5px auto;
   background-color: lightblue;
