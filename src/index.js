@@ -40,8 +40,6 @@ const manipulateDOM = (() =>{
     addItemButton.innerHTML = "Add Item"
     addProjButton.setAttribute('id',`add-project`);
     addItemButton.setAttribute('id',`add-item`);
-    
-    projectContainer.addProject('defaultProject')
     mainContent.setAttribute('id',`content`);
     document.body.appendChild(mainContent)
     sideBar.setAttribute('id',`side-bar`);
@@ -51,26 +49,40 @@ const manipulateDOM = (() =>{
     sideBar.appendChild(addProjButton)
     todolistspace.appendChild(addItemButton)
     addProjButton.addEventListener('click',()=>{
-      projectContainer.addProject('placeholder')
+      manipulateDOM.appendProject()
     })
+    projectContainer.addProject()
 
 
   }
 
-  const appendProject = (projectName) => {
+  const appendProject = () => {
     let newProjDom = document.createElement('div');
     let removeButton = document.createElement('div');
     let addProjButton = document.getElementById('add-project')
-    newProjDom.setAttribute('id',`${projectName}-project`);
+    let projectName = ""
+    sideBar.insertBefore(newProjDom, addProjButton)
+
     newProjDom.classList.add('project-entry');
-    newProjDom.innerHTML = `${projectName}`
+    // newProjDom.innerHTML = `${projectName}`
+    newProjDom.innerHTML = `<form id = "project-name-form" onsubmit = "return false" >
+              <input type="text" id="title" name="title" ><br></form>`;
     removeButton.classList.add('remove-button');
     removeButton.innerHTML = `x`
     removeButton.addEventListener('click', e => {
       removeProject(e.target.parentNode.id)
     })
     newProjDom.appendChild(removeButton)
-    sideBar.insertBefore(newProjDom, addProjButton)
+    let form = document.querySelector('#project-name-form')
+    form.addEventListener('submit',e =>{
+      projectName = form.elements['title'].value;
+      newProjDom.innerHTML = projectName;
+      newProjDom.appendChild(removeButton)
+      newProjDom.setAttribute('id',`${projectName}-project`);
+      projectContainer.addProject(projectName)
+    })
+    return projectName
+    
   }
   const appendItem = (itemName) => {
     let newItemDom = document.createElement('div');
@@ -113,7 +125,6 @@ const projectContainer = (() => {
   let projectList = {};
   const addProject = (projectName) =>{
     projectList[projectName] = project()
-    manipulateDOM.appendProject(projectName)
   }
   const removeProject = (projectName) =>{
     delete projectList[projectName]
@@ -127,7 +138,7 @@ const projectContainer = (() => {
 manipulateDOM.startUp()
 
 
-projectContainer.projectList.defaultProject.addItem(todoItem("laundry", "do your laundry", new Date(2020, 1, 11),'low'))
+// projectContainer.projectList.defaultProject.addItem(todoItem("laundry", "do your laundry", new Date(2020, 1, 11),'low'))
 
 // projectContainer.projectList['defaultProject'].changeItemProject('laundry','home')
 
