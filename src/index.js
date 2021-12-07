@@ -97,7 +97,7 @@ const manipulateDOM = (() =>{
     })
     
   }
-  const appendItem = (itemName) => {
+  const appendItem = (itemName, repaint = null) => {
     let newProjDom = document.createElement('div');
     let removeButton = document.createElement('div');
     let addItemButton = document.getElementById('add-item')
@@ -110,16 +110,23 @@ const manipulateDOM = (() =>{
 
     newProjDom.classList.add('item-entry');
     // newProjDom.innerHTML = `${projectName}`
-    let nameForm = document.createElement('form');
-    nameForm.setAttribute('onsubmit','return false');
-    nameForm.innerHTML = '<input type="text" id="title" name="title" ><br></form>'
     removeButton.classList.add('remove-button');
     removeButton.innerHTML = `x`
     removeButton.addEventListener('click', e => {
       removeItem(e.target.parentNode)
     });
+    if (repaint === 'yes') {
+      newProjDom.innerHTML = itemName
+      newProjDom.appendChild(removeButton);
+      return
+    }
+    
+    let nameForm = document.createElement('form');
+    nameForm.setAttribute('onsubmit','return false');
+    nameForm.innerHTML = '<input type="text" id="title" name="title" ><br></form>'
+
     newProjDom.appendChild(nameForm);
-    newProjDom.appendChild(removeButton);
+  
     
     nameForm.addEventListener('submit',e =>{
       itemName = nameForm.elements['title'].value;
@@ -128,6 +135,7 @@ const manipulateDOM = (() =>{
       newProjDom.setAttribute('id',`${itemName}`);
       projectContainer.projectList[`${projectContainer.getCurrentProject()}`].addItem(todoItem(`${itemName}`, "do your laundry", new Date(2020, 1, 11),'low'),`${projectContainer.getCurrentProject()}`)
     })
+    newProjDom.appendChild(removeButton);
   }
 
   const removeProject = (project) => {
@@ -145,8 +153,23 @@ const manipulateDOM = (() =>{
     todolistspace.removeChild(item)
   }
 
+  const showToDos = (project) => {
+    todolistspace.innerHTML = ""
+    todolistspace.appendChild(addItemButton)
+    // let toAdd = Object.keys(projectContainer.projectList[project])
+    // console.log(toAdd)
+    if (projectContainer.projectList[project]){
+     let keyList = Object.keys(projectContainer.projectList[project].itemList)
+     let toAddItem = null
+     keyList.forEach(key => {
+      appendItem(key, 'yes')
+     })
+    }
+    
+  }
 
-  return {startUp, appendProject, appendItem, removeProject, removeItem}
+
+  return {startUp, appendProject, appendItem, removeProject, removeItem, showToDos}
 
 })();
 
@@ -163,6 +186,7 @@ const projectContainer = (() => {
 
   const setProject = (projectName) => {
     selected_project = projectName;
+    manipulateDOM.showToDos(projectName)
   }
 
   const getCurrentProject = () => selected_project
