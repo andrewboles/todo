@@ -1,4 +1,40 @@
 // import { format, compareAsc } from 'date-fns'
+import { initializeApp } from "firebase/app";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+
+// Your web app's Firebase configuration
+const firebaseConfig = {
+  apiKey: "AIzaSyDPNc4Mn6R0PAh1f-5KKFstwEFWgNlWO54",
+  authDomain: "todo-8e4c8.firebaseapp.com",
+  projectId: "todo-8e4c8",
+  storageBucket: "todo-8e4c8.appspot.com",
+  messagingSenderId: "273228288220",
+  appId: "1:273228288220:web:d4fd5810c948f49aace419"
+};
+import {
+  getFirestore,
+  collection,
+  addDoc,
+  query,
+  orderBy,
+  limit,
+  onSnapshot,
+  setDoc,
+  updateDoc,
+  doc,
+  serverTimestamp,
+} from 'firebase/firestore';
+import {
+  getStorage,
+  ref,
+  uploadBytesResumable,
+  getDownloadURL,
+} from 'firebase/storage';
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+
 import './style.css';
 
 const todoItem = (title, description, dueDate, priority, projectSet = 'defaultProject')  => {

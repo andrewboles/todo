@@ -7,7 +7,6 @@
   background-color: gray;
   justify-content: space-between;
   align-items: space-between;
-  align-content: space-between;
   border: 4px solid black;
 
 }
@@ -16,27 +15,25 @@
 
 #todo-list-space{
   display: flex;
-  flex-flow: row wrap;
+  flex-flow: column;
   width: 800px;
   height: 700px;
   /*margin: 10px auto;*/
   background-color: gray;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: space-between;
-  align-content: space-between;
   border: 2px solid black;
 }
 
 #side-bar{
   display: flex;
-  flex-flow: row wrap;
+  flex-flow: column;
   width: 350px;
   height: 700px;
   margin: 5x auto;
   background-color: lightgray;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: space-between;
-  align-content: space-between;
   border: 2px solid black;
 
 }
